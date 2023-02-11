@@ -1,0 +1,24 @@
+{
+    "name": "chat-capture",
+    "version": "1.0.0",
+    "private": true,
+    "description": "",
+    "main": "./dist",
+    "bin": "./dist/index.js",
+    "scripts": {
+        "pkg": "tsc && pkg -t node18-windows-x64 --no-native-build --public -o ./chat-capture package.json",
+        "dev": "tsc && node ."
+    },
+    "author": "Mr.Panda (https://github.com/mycrl)",
+    "devDependencies": {
+        "@types/node": "18.13.0",
+        "@types/which": "^2.0.1",
+        "pkg": "^5.8.0",
+        "typescript": "4.9.5"
+    },
+    "dependencies": {
+        "commander": "^10.0.0",
+        "puppeteer-core": "19.6.3",
+        "which": "^3.0.0"
+    }
+}

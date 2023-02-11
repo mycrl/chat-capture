@@ -1,0 +1,11 @@
+target/
+.vs
+.vscode
+*dist*
+*node_modules*
+/third_party
+build/
+.DS_Store
+*/doc/*
+.idea/
+pkg/
