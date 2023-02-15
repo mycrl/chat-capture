@@ -36,43 +36,46 @@ function handlers() {
             if (mut.type === 'childList') {
                 for (const node of mut.addedNodes) {
                     const element = node as any;
-                    
-                    /* If it is tiktok, you can check whether it is a chat 
-                    message, and ignore all nodes that are not chat messages. */
-                    if (
-                        isTikTok && 
-                        element.getAttribute('data-e2e') !== 'chat-message'
-                    ) {
-                        continue;
-                    }
-                    
-                    const info = isTikTok
-                      ? {
-                          username: element
-                            .querySelector('div:nth-of-type(2) > div > span')
-                            .innerText,
-                          message:  element
-                            .querySelector('div:nth-of-type(2) > span')
-                            .innerText,
-                      }
-                      : {
-                          username: element
-                            .querySelector('div > span:nth-of-type(2)')
-                            .innerText
-                            .replace('：', ''),
-                          message:  element
-                            .querySelector('div > span:nth-of-type(3) > span')
-                            .innerText,
-                      };
+                    try {
+                        /* If it is tiktok, you can check whether it is a chat 
+                        message, and ignore all nodes that are not chat messages. */
+                        if (
+                            isTikTok && 
+                            element.getAttribute('data-e2e') !== 'chat-message'
+                        ) {
+                            continue;
+                        }
 
-                    /* For Douyin, non-chat messages cannot be ignored, 
-                    and gift-giving messages and nodes of other people 
-                    in Aite are excluded here. */
-                    if (
-                        !info.message.includes('送出了 ×') && 
-                        !info.message.startsWith('@')
-                    ) {
-                        console.log(JSON.stringify(info));
+                        const info = isTikTok
+                          ? {
+                              username: element
+                                .querySelector('div:nth-of-type(2) > div > span')
+                                .innerText,
+                              message:  element
+                                .querySelector('div:nth-of-type(2) > span')
+                                .innerText,
+                          }
+                          : {
+                              username: element
+                                .querySelector('div > span:nth-of-type(2)')
+                                .innerText
+                                .replace('：', ''),
+                              message:  element
+                                .querySelector('div > span:nth-of-type(3) > span')
+                                .innerText,
+                          };
+
+                        /* For Douyin, non-chat messages cannot be ignored, 
+                        and gift-giving messages and nodes of other people 
+                        in Aite are excluded here. */
+                        if (
+                            !info.message.includes('送出了 ×') && 
+                            !info.message.startsWith('@')
+                        ) {
+                            console.log(JSON.stringify(info));
+                        }   
+                    } catch(_) {
+                        continue;
                     }
                 }
             }
@@ -84,6 +87,8 @@ function handlers() {
         observer.observe(targetNode, {
             childList: true
         });
+    } else {
+        throw new Error('target node not found!');
     }
 }
 
